@@ -1,9 +1,9 @@
 version: '3.9'
 
 services:
-  db-master:
-    container_name: db-master
-    hostname: db-master
+  db-proyecto:
+    container_name: db-proyecto
+    hostname: db-proyecto
     image: mysql:debian
     restart: unless-stopped
     tty: true
@@ -18,63 +18,13 @@ services:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_LOG_CONSOLE: "true"
     volumes:
-      - ./config/master.cnf:/etc/mysql/my.cnf:ro
-      - ./sql/master/replication_user.sql:/docker-entrypoint-initdb.d/replication_user.sql:ro
-      - ./sql/master/scheme.sql:/docker-entrypoint-initdb.d/scheme.sql:ro
-      - ./sql/master/values.sql:/docker-entrypoint-initdb.d/values.sql:ro
+      - ./config/my.cnf:/etc/mysql/my.cnf
+      - ./sql/scheme.sql:/docker-entrypoint-initdb.d/1.sql:ro
+    command: bash -c "chmod 644 /etc/mysql/my.cnf && docker-entrypoint.sh mysqld"
     mem_limit: 512M
     networks:
       bridge-db:
-        ipv4_address: 192.168.20.21
-
-
-  db-slave-1:
-    container_name: db-slave-1
-    hostname: db-slave-1
-    image: mysql:debian
-    restart: unless-stopped
-    tty: true
-    stdin_open: true
-    ports:
-      - "3307:3306"
-    expose:
-      - 3307
-    cap_add:
-      - SYS_NICE
-    environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_LOG_CONSOLE: "true"
-    volumes:
-      - ./config/slave1.cnf:/etc/mysql/my.cnf:ro
-      - ./sql/slave:/docker-entrypoint-initdb.d:ro
-    mem_limit: 512M
-    networks:
-      bridge-db:
-        ipv4_address: 192.168.20.22
-
-  db-slave-2:
-    container_name: db-slave-2
-    hostname: db-slave-2
-    image: mysql:debian
-    restart: unless-stopped
-    tty: true
-    stdin_open: true
-    ports:
-      - "3308:3306"
-    expose:
-      - 3308
-    cap_add:
-      - SYS_NICE
-    environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_LOG_CONSOLE: "true"
-    volumes:
-      - ./config/slave2.cnf:/etc/mysql/my.cnf:ro
-      - ./sql/slave:/docker-entrypoint-initdb.d:ro
-    mem_limit: 512M
-    networks:
-      bridge-db:
-        ipv4_address: 192.168.20.23
+        ipv4_address: 192.168.20.20
   
 networks:
   bridge-db:
