@@ -70,3 +70,19 @@ FROM factura f
 WHERE
     c.apellido_paterno = 'Chambi'
     AND c.nombre_cliente = 'Dylan';
+
+
+
+
+
+INSERT INTO lote_venta (venta_id, producto_id, cantidad_producto) VALUES (5, 1, 1000);
+
+INSERT INTO lote_venta (venta_id, producto_id, cantidad_producto) VALUES (5, 2, 1);
+
+
+INSERT INTO lote_venta (venta_id, producto_id, cantidad_producto) VALUES (5, 1, 1);
+
+
+INSERT INTO lote_compra (compra_id, producto_id, fecha_vencimiento_lote, cantidad_producto, precio_unitario) VALUES (3, 4, '2021-12-12', 1000, 1);
+
+INSERT INTO movimiento_producto (producto_id, almacen_origen_id, almacen_destino_id, fecha_movimiento, cantidad_movimiento) VALUES (1, 2, 1, '2021-12-12', 1);

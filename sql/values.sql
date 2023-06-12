@@ -82,7 +82,7 @@ INSERT INTO factura (nro_factura, nro_autorizacion, nit_empresa, fecha_emision, 
 
 INSERT INTO producto (id_producto, nombre_producto, proveedor_id, codigo_barras, precio_nacional, marca_id, categoria_id, estado_producto, cantidad_stock_total, cantidad_vendida_total) VALUES
     (1, 'Kris Mayonesa Pomo 380ml', 1, 1234567890, 17.30, 4, 6, 'HABILITADO', 100, 0),
-    (2, 'PILFRUT MANZANA 800ML', 2, 2345678901, 1.00, 2, 5, 'HABILITADO', 100, 0),
+    (2, 'PILFRUT MANZANA 800ML', 2, 2345678901, 1.00, 2, 5, 'DESHABILITADO', 100, 0),
     (3, 'Nesquik Chocolate 400g', 3, 3456789012, 14.50, 3, 5, 'HABILITADO', 100, 0),
     (4, 'Ice Fruit Mango Botella 2L', 4, 4567890123, 10.50, 1, 5, 'HABILITADO', 100, 0),
     (5, 'Arcor Tableta Rocklets X 80Gr', 5, 5678901234, 5.50, 5, 5, 'HABILITADO', 100, 0);
@@ -92,7 +92,12 @@ INSERT INTO almacen_producto (producto_id, almacen_id, cantidad_producto) VALUES
     (2, 2, 100),
     (3, 3, 100),
     (4, 4, 100),
-    (5, 5, 100);
+    (5, 5, 100),
+    (1, 2, 100),
+    (2, 1, 0),
+    (1, 3, 20),
+    (3, 2, 50),
+    (2, 3, 70);
 
 INSERT INTO compra (id_compra, fecha_compra, proveedor_id, total_compra) VALUES
     (1, '2023-05-20', 1, 742.50), -- x 45
@@ -101,12 +106,12 @@ INSERT INTO compra (id_compra, fecha_compra, proveedor_id, total_compra) VALUES
     (4, '2023-05-23', 4, 411.60), -- x 42
     (5, '2023-05-24', 5, 495.00); -- x 50
 
-INSERT INTO lote_compra (compra_id, producto_id, fecha_vencimiento_lote, cantidad_producto, precio_unitario, total_lote_compra) VALUES
-    (1, 1, '2023-05-20', 45, 16.50, 742.50),
-    (2, 2, '2023-05-21', 120, 0.80, 96.00),
-    (3, 3, '2023-05-22', 30, 13.90, 417.00),
-    (4, 4, '2023-05-23', 42, 9.80, 411.60),
-    (5, 5, '2023-05-24', 50, 9.90, 495.00);
+INSERT INTO lote_compra (compra_id, producto_id, fecha_vencimiento_lote, cantidad_producto, precio_unitario) VALUES
+    (1, 1, '2023-05-20', 45, 16.50),
+    (2, 2, '2023-05-21', 120, 0.80),
+    (3, 3, '2023-05-22', 30, 13.90),
+    (4, 4, '2023-05-23', 42, 9.80),
+    (5, 5, '2023-05-24', 50, 9.90);
 
 
 INSERT INTO venta (id_venta, fecha_venta, cliente_nit_ci, estado_venta, factura_nro, total_venta) VALUES
@@ -116,12 +121,12 @@ INSERT INTO venta (id_venta, fecha_venta, cliente_nit_ci, estado_venta, factura_
     (4, '2023-05-23', 4514645, 'PENDIENTE', 10000004, 18.00),
     (5, '2023-05-24', 6963367, 'PAGADA', 10000005, 28.00);
 
-INSERT INTO lote_venta (venta_id, producto_id, cantidad_producto, precio_unitario, total_lote_compra) VALUES
-    (1, 1, 2, 2.50, 5.00),
-    (2, 2, 1, 5.00, 5.00),
-    (3, 3, 4, 1.80, 7.20),
-    (4, 4, 1, 2.00, 2.00),
-    (5, 5, 3, 1.50, 4.50);
+INSERT INTO lote_venta (venta_id, producto_id, cantidad_producto, precio_unitario) VALUES
+    (1, 1, 2, 2.50),
+    (2, 1, 1, 5.00),
+    (3, 3, 4, 1.80),
+    (4, 4, 1, 2.00),
+    (5, 5, 3, 1.50);
 
 INSERT INTO movimiento_producto (id_movimiento, producto_id, almacen_origen_id, almacen_destino_id, fecha_movimiento, cantidad_movimiento) VALUES
     (1, 1, 1, 2, '2023-05-20', 2),
