@@ -52,7 +52,18 @@ CREATE TABLE IF NOT EXISTS cliente (
     correo_cliente VARCHAR(30) NOT NULL,
     telefono_cliente VARCHAR(20) NOT NULL,
     extension_ci VARCHAR(5) NOT NULL,
+    mod_usuario VARCHAR(50),
+    mod_fecha DATETIME,
     PRIMARY KEY (nit_ci)
+);
+
+CREATE TABLE IF NOT EXISTS cliente_shadow (
+    id_shadow INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+    nit_ci BIGINT UNSIGNED,
+    mod_usuario VARCHAR(50),
+    mod_fecha DATETIME,
+    accion VARCHAR(50),
+    PRIMARY KEY (id_shadow)
 );
 
 CREATE TABLE IF NOT EXISTS marca (
@@ -89,9 +100,20 @@ CREATE TABLE IF NOT EXISTS factura (
     codigo_qr BLOB,
     fecha_limite_emision DATE NOT NULL,
     estado ENUM('ACTIVA', 'ANULADA', 'PENDIENTE') NOT NULL,
+    mod_usuario VARCHAR(50),
+    mod_fecha DATETIME,
     PRIMARY KEY (nro_factura),
     FOREIGN KEY (cliente_nit_ci) references cliente (nit_ci)
 ) AUTO_INCREMENT = 10000000;
+
+CREATE TABLE IF NOT EXISTS factura_shadow (
+    id_shadow INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+    nro_factura BIGINT UNSIGNED,
+    mod_usuario VARCHAR(50),
+    mod_fecha DATETIME,
+    accion VARCHAR(50),
+    PRIMARY KEY (id_shadow)
+);
 
 CREATE TABLE IF NOT EXISTS producto (
     id_producto BIGINT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
@@ -104,10 +126,21 @@ CREATE TABLE IF NOT EXISTS producto (
     estado_producto ENUM('HABILITADO', 'DESHABILITADO'),
     cantidad_stock_total INT UNSIGNED NOT NULL,
     cantidad_vendida_total INT UNSIGNED NOT NULL,
+    mod_usuario VARCHAR(50),
+    mod_fecha DATETIME,
     PRIMARY KEY (id_producto),
     FOREIGN KEY (proveedor_id) REFERENCES proveedor (id_proveedor),
     FOREIGN KEY (marca_id) REFERENCES marca (id_marca),
     FOREIGN KEY (categoria_id) REFERENCES categoria (id_categoria)
+);
+
+CREATE TABLE IF NOT EXISTS producto_shadow (
+    id_shadow INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+    id_producto BIGINT UNSIGNED,
+    mod_usuario VARCHAR(50),
+    mod_fecha DATETIME,
+    accion VARCHAR(50),
+    PRIMARY KEY (id_shadow)
 );
 
 CREATE TABLE IF NOT EXISTS almacen_producto (
@@ -124,8 +157,19 @@ CREATE TABLE IF NOT EXISTS compra (
     fecha_compra DATE NOT NULL,
     proveedor_id INT UNSIGNED NOT NULL,
     total_compra DECIMAL(10, 2) NOT NULL,
+    mod_usuario VARCHAR(50),
+    mod_fecha DATETIME,
     PRIMARY KEY (id_compra),
     FOREIGN KEY (proveedor_id) REFERENCES proveedor (id_proveedor)
+);
+
+CREATE TABLE IF NOT EXISTS compra_shadow (
+    id_shadow INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+    id_compra INT UNSIGNED,
+    mod_usuario VARCHAR(50),
+    mod_fecha DATETIME,
+    accion VARCHAR(50),
+    PRIMARY KEY (id_shadow)
 );
 
 CREATE TABLE IF NOT EXISTS lote_compra (
@@ -147,9 +191,20 @@ CREATE TABLE IF NOT EXISTS venta (
     estado_venta ENUM('INMEDIATA', 'PENDIENTE', 'PAGADA') NOT NULL,
     factura_nro BIGINT UNSIGNED NOT NULL UNIQUE,
     total_venta DECIMAL(10, 2) NOT NULL,
+    mod_usuario VARCHAR(50),
+    mod_fecha DATETIME,
     PRIMARY KEY (id_venta),
     FOREIGN KEY (cliente_nit_ci) references cliente (nit_ci),
     FOREIGN KEY (factura_nro) references factura (nro_factura)
+);
+
+CREATE TABLE IF NOT EXISTS venta_shadow (
+    id_shadow INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+    id_venta INT UNSIGNED,
+    mod_usuario VARCHAR(50),
+    mod_fecha DATETIME,
+    accion VARCHAR(50),
+    PRIMARY KEY (id_shadow)
 );
 
 CREATE TABLE IF NOT EXISTS lote_venta (
@@ -170,8 +225,19 @@ CREATE TABLE IF NOT EXISTS movimiento_producto (
     almacen_destino_id INT UNSIGNED NOT NULL,
     fecha_movimiento DATE NOT NULL,
     cantidad_movimiento INT UNSIGNED NOT NULL,
+    mod_usuario VARCHAR(50),
+    mod_fecha DATETIME,
     PRIMARY KEY (id_movimiento),
     FOREIGN KEY (producto_id) REFERENCES producto (id_producto),
     FOREIGN KEY (almacen_origen_id) REFERENCES almacen (id_almacen),
     FOREIGN KEY (almacen_destino_id) REFERENCES almacen (id_almacen)
+);
+
+CREATE TABLE IF NOT EXISTS movimiento_producto_shadow (
+    id_shadow INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+    id_movimiento INT UNSIGNED,
+    mod_usuario VARCHAR(50),
+    mod_fecha DATETIME,
+    accion VARCHAR(50),
+    PRIMARY KEY (id_shadow)
 );

@@ -110,5 +110,157 @@ BEGIN
     
 END //
 
+CREATE TRIGGER cliente_shadow_before_insert BEFORE INSERT ON cliente
+FOR EACH ROW
+BEGIN
+    SET NEW.mod_usuario = CURRENT_USER();
+    SET NEW.mod_fecha = NOW();
+END //
+
+CREATE TRIGGER cliente_shadow_after_insert AFTER INSERT ON cliente
+FOR EACH ROW
+BEGIN
+    INSERT INTO cliente_shadow (nit_ci, mod_usuario, mod_fecha, accion) VALUES (NEW.nit_ci, CURRENT_USER(), NOW(), 'INSERT');
+END //
+
+CREATE TRIGGER cliente_shadow_after_update AFTER UPDATE ON cliente
+FOR EACH ROW
+BEGIN
+    INSERT INTO cliente_shadow (nit_ci, mod_usuario, mod_fecha, accion) VALUES (NEW.nit_ci, CURRENT_USER(), NOW(), 'UPDATE');
+END //
+
+
+CREATE TRIGGER cliente_shadow_after_delete AFTER DELETE ON cliente
+FOR EACH ROW
+BEGIN
+    INSERT INTO cliente_shadow (nit_ci, mod_usuario, mod_fecha, accion) VALUES (OLD.nit_ci, CURRENT_USER(), NOW(), 'DELETE');
+END //
+
+CREATE TRIGGER factura_shadow_before_insert BEFORE INSERT ON factura
+FOR EACH ROW
+BEGIN
+    SET NEW.mod_usuario = CURRENT_USER();
+    SET NEW.mod_fecha = NOW();
+END //
+
+CREATE TRIGGER factura_shadow_after_insert AFTER INSERT ON factura
+FOR EACH ROW
+BEGIN
+    INSERT INTO factura_shadow (nro_factura, mod_usuario, mod_fecha, accion) VALUES (NEW.nro_factura, CURRENT_USER(), NOW(), 'INSERT');
+END //
+
+CREATE TRIGGER factura_shadow_after_update AFTER UPDATE ON factura
+FOR EACH ROW
+BEGIN
+    INSERT INTO factura_shadow (nro_factura, mod_usuario, mod_fecha, accion) VALUES (NEW.nro_factura, CURRENT_USER(), NOW(), 'UPDATE');
+END //
+
+CREATE TRIGGER factura_shadow_after_delete AFTER DELETE ON factura
+FOR EACH ROW
+BEGIN
+    INSERT INTO factura_shadow (nro_factura, mod_usuario, mod_fecha, accion) VALUES (OLD.nro_factura, CURRENT_USER(), NOW(), 'DELETE');
+END //
+
+CREATE TRIGGER producto_shadow_before_insert BEFORE INSERT ON producto
+FOR EACH ROW
+BEGIN
+    SET NEW.mod_usuario = CURRENT_USER();
+    SET NEW.mod_fecha = NOW();
+END //
+
+CREATE TRIGGER producto_shadow_after_insert AFTER INSERT ON producto
+FOR EACH ROW
+BEGIN
+    INSERT INTO producto_shadow (id_producto, mod_usuario, mod_fecha, accion) VALUES (NEW.id_producto, CURRENT_USER(), NOW(), 'INSERT');
+END //
+
+CREATE TRIGGER producto_shadow_after_update AFTER UPDATE ON producto
+FOR EACH ROW
+BEGIN
+    INSERT INTO producto_shadow (id_producto, mod_usuario, mod_fecha, accion) VALUES (NEW.id_producto, CURRENT_USER(), NOW(), 'UPDATE');
+END //
+
+CREATE TRIGGER producto_shadow_after_delete AFTER DELETE ON producto
+FOR EACH ROW
+BEGIN
+    INSERT INTO producto_shadow (id_producto, mod_usuario, mod_fecha, accion) VALUES (OLD.id_producto, CURRENT_USER(), NOW(), 'DELETE');
+END //
+
+CREATE TRIGGER compra_shadow_before_insert BEFORE INSERT ON compra
+FOR EACH ROW
+BEGIN
+    SET NEW.mod_usuario = CURRENT_USER();
+    SET NEW.mod_fecha = NOW();
+END //
+
+CREATE TRIGGER compra_shadow_after_insert AFTER INSERT ON compra
+FOR EACH ROW
+BEGIN
+    INSERT INTO compra_shadow (id_compra, mod_usuario, mod_fecha, accion) VALUES (NEW.id_compra, CURRENT_USER(), NOW(), 'INSERT');
+END //
+
+CREATE TRIGGER compra_shadow_after_update AFTER UPDATE ON compra
+FOR EACH ROW
+BEGIN
+    INSERT INTO compra_shadow (id_compra, mod_usuario, mod_fecha, accion) VALUES (NEW.id_compra, CURRENT_USER(), NOW(), 'UPDATE');
+END //
+
+CREATE TRIGGER compra_shadow_after_delete AFTER DELETE ON compra
+FOR EACH ROW
+BEGIN
+    INSERT INTO compra_shadow (id_compra, mod_usuario, mod_fecha, accion) VALUES (OLD.id_compra, CURRENT_USER(), NOW(), 'DELETE');
+END //
+
+
+CREATE TRIGGER venta_shadow_before_insert BEFORE INSERT ON venta
+FOR EACH ROW
+BEGIN
+    SET NEW.mod_usuario = CURRENT_USER();
+    SET NEW.mod_fecha = NOW();
+END //
+
+CREATE TRIGGER venta_shadow_after_insert AFTER INSERT ON venta
+FOR EACH ROW
+BEGIN
+    INSERT INTO venta_shadow (id_venta, mod_usuario, mod_fecha, accion) VALUES (NEW.id_venta, CURRENT_USER(), NOW(), 'INSERT');
+END //
+
+CREATE TRIGGER venta_shadow_after_update AFTER UPDATE ON venta
+FOR EACH ROW
+BEGIN
+    INSERT INTO venta_shadow (id_venta, mod_usuario, mod_fecha, accion) VALUES (NEW.id_venta, CURRENT_USER(), NOW(), 'UPDATE');
+END //
+
+CREATE TRIGGER venta_shadow_after_delete AFTER DELETE ON venta
+FOR EACH ROW
+BEGIN
+    INSERT INTO venta_shadow (id_venta, mod_usuario, mod_fecha, accion) VALUES (OLD.id_venta, CURRENT_USER(), NOW(), 'DELETE');
+END //
+
+CREATE TRIGGER movimiento_producto_shadow_before_insert BEFORE INSERT ON movimiento_producto
+FOR EACH ROW
+BEGIN
+    SET NEW.mod_usuario = CURRENT_USER();
+    SET NEW.mod_fecha = NOW();
+END //
+
+CREATE TRIGGER movimiento_producto_shadow_after_insert AFTER INSERT ON movimiento_producto
+FOR EACH ROW
+BEGIN
+    INSERT INTO movimiento_producto_shadow (id_movimiento, mod_usuario, mod_fecha, accion) VALUES (NEW.id_movimiento, CURRENT_USER(), NOW(), 'INSERT');
+END //
+
+CREATE TRIGGER movimiento_producto_shadow_after_update AFTER UPDATE ON movimiento_producto
+FOR EACH ROW
+BEGIN
+    INSERT INTO movimiento_producto_shadow (id_movimiento, mod_usuario, mod_fecha, accion) VALUES (NEW.id_movimiento, CURRENT_USER(), NOW(), 'UPDATE');
+END //
+
+CREATE TRIGGER movimiento_producto_shadow_after_delete AFTER DELETE ON movimiento_producto
+FOR EACH ROW
+BEGIN
+    INSERT INTO movimiento_producto_shadow (id_movimiento, mod_usuario, mod_fecha, accion) VALUES (OLD.id_movimiento, CURRENT_USER(), NOW(), 'DELETE');
+END //
+
 
 DELIMITER ;
