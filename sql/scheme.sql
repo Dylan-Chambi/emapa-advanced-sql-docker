@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS direccion (
     calle_o_avenida_direccion VARCHAR(255) NOT NULL,
     nro_domicilio_direccion INT UNSIGNED NOT NULL,
     zona_direccion VARCHAR(50) NOT NULL,
-    departamento_direccion VARCHAR(50) NOT NULL
+    departamento_direccion VARCHAR(50) NOT NULL,
     PRIMARY KEY (id_direccion)
 );
 
@@ -114,7 +114,10 @@ CREATE TABLE IF NOT EXISTS almacen_producto (
     producto_id BIGINT UNSIGNED NOT NULL,
     almacen_id INT UNSIGNED NOT NULL,
     cantidad_producto INT UNSIGNED NOT NULL,
-)
+    PRIMARY KEY (producto_id, almacen_id),
+    FOREIGN KEY (producto_id) REFERENCES producto (id_producto),
+    FOREIGN KEY (almacen_id) REFERENCES almacen (id_almacen)
+);
 
 CREATE TABLE IF NOT EXISTS compra (
     id_compra INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
@@ -127,11 +130,12 @@ CREATE TABLE IF NOT EXISTS compra (
 
 CREATE TABLE IF NOT EXISTS lote_compra (
     compra_id INT UNSIGNED NOT NULL,
-    producto_id INT UNSIGNED NOT NULL,
+    producto_id BIGINT UNSIGNED NOT NULL,
     fecha_vencimiento_lote DATE NOT NULL,
     cantidad_producto MEDIUMINT UNSIGNED NOT NULL,
     precio_unitario DECIMAL(10, 2) NOT NULL,
     total_lote_compra DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (compra_id, producto_id),
     FOREIGN KEY (compra_id) REFERENCES compra (id_compra),
     FOREIGN KEY (producto_id) REFERENCES producto (id_producto)
 );
@@ -150,17 +154,18 @@ CREATE TABLE IF NOT EXISTS venta (
 
 CREATE TABLE IF NOT EXISTS lote_venta (
     venta_id INT UNSIGNED NOT NULL,
-    producto_id INT UNSIGNED NOT NULL,
+    producto_id BIGINT UNSIGNED NOT NULL,
     cantidad_producto MEDIUMINT UNSIGNED NOT NULL,
     precio_unitario DECIMAL(10, 2) NOT NULL,
     total_lote_compra DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (venta_id, producto_id),
     FOREIGN KEY (venta_id) REFERENCES venta (id_venta),
     FOREIGN KEY (producto_id) REFERENCES producto (id_producto)
 );
 
 CREATE TABLE IF NOT EXISTS movimiento_producto (
     id_movimiento INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
-    producto_id INT UNSIGNED NOT NULL,
+    producto_id BIGINT UNSIGNED NOT NULL,
     almacen_origen_id INT UNSIGNED NOT NULL,
     almacen_destino_id INT UNSIGNED NOT NULL,
     fecha_movimiento DATE NOT NULL,
