@@ -73,19 +73,11 @@ END //
 
 -- TODO: Actualizar las cantiadades en almacenes cuando se haga un movimiento
 DROP TRIGGER IF EXISTS actualizar_y_movimiento_stock_almacen //
-CREATE TRIGGER actualizar_y_movimiento_stock_almacen AFTER INSERT ON movimiento_producto
+CREATE TRIGGER actualizar_movimiento_stock_almacen AFTER INSERT ON movimiento_producto
 FOR EACH ROW
 BEGIN
 
     DECLARE cantidad_origen INT;
-    
-    IF (SELECT COUNT(*) FROM almacen_producto WHERE almacen_producto.almacen_id = NEW.almacen_origen_id AND almacen_producto.producto_id = NEW.producto_id) = 0 THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No existe el producto en el almacen origen';
-    END IF;
-
-    IF (SELECT COUNT(*) FROM almacen_producto WHERE almacen_producto.almacen_id = NEW.almacen_destino_id AND almacen_producto.producto_id = NEW.producto_id) = 0 THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No existe el producto en el almacen destino';
-    END IF;
 
     SET cantidad_origen = (SELECT cantidad_producto FROM almacen_producto
     WHERE almacen_producto.almacen_id = NEW.almacen_origen_id AND almacen_producto.producto_id = NEW.producto_id);

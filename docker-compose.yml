@@ -22,7 +22,8 @@ services:
       - ./sql/scheme.sql:/docker-entrypoint-initdb.d/1.sql:ro
       - ./sql/indexes.sql:/docker-entrypoint-initdb.d/2.sql:ro
       - ./sql/triggers.sql:/docker-entrypoint-initdb.d/3.sql:ro
-      - ./sql/values.sql:/docker-entrypoint-initdb.d/4.sql:ro
+      - ./sql/procedures.sql:/docker-entrypoint-initdb.d/4.sql:ro
+      - ./sql/values.sql:/docker-entrypoint-initdb.d/5.sql:ro
     command: bash -c "chmod 644 /etc/mysql/my.cnf && docker-entrypoint.sh mysqld"
     mem_limit: 512M
     networks:
